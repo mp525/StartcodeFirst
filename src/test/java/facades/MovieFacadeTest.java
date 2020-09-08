@@ -1,7 +1,7 @@
 package facades;
 
 import utils.EMF_Creator;
-import entities.RenameMe;
+import entities.Movie;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterAll;
@@ -13,18 +13,18 @@ import org.junit.jupiter.api.Test;
 
 //Uncomment the line below, to temporarily disable this test
 //@Disabled
-public class FacadeExampleTest {
+public class MovieFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static FacadeExample facade;
+    private static MovieFacade facade;
 
-    public FacadeExampleTest() {
+    public MovieFacadeTest() {
     }
 
     @BeforeAll
     public static void setUpClass() {
        emf = EMF_Creator.createEntityManagerFactoryForTest();
-       facade = FacadeExample.getFacadeExample(emf);
+       facade = MovieFacade.getFacadeExample(emf);
     }
 
     @AfterAll
@@ -38,10 +38,14 @@ public class FacadeExampleTest {
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
+            String[] ar1 = new String[1];
+            String[] ar2 = new String[1];
+            ar1[0] = "Testactor 1";
+            ar2[0] = "Testactor 2";
             em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(new RenameMe("Some txt", "More text"));
-            em.persist(new RenameMe("aaa", "bbb"));
+            em.createNamedQuery("Movie.deleteAllRows").executeUpdate();
+            em.persist(new Movie(1, "testmovie", "testmovie", ar1));
+            em.persist(new Movie(1, "testmovie2", "testmovie2", ar2));
 
             em.getTransaction().commit();
         } finally {
@@ -56,8 +60,8 @@ public class FacadeExampleTest {
 
     // TODO: Delete or change this method 
     @Test
-    public void testAFacadeMethod() {
-        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
+    public void testGetMovieCount() {
+        assertEquals(2, facade.getMovieCount(), "Expects two rows in the database");
     }
 
 }
