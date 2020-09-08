@@ -7,7 +7,12 @@ import static io.restassured.RestAssured.given;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import static org.hamcrest.MatcherAssert.assertThat;
+import org.hamcrest.Matchers;
+import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -91,9 +96,17 @@ public class MovieFacadeTest {
         assertEquals(title, movie.getTitle());
     }
 
-    //@Test
+    @Test
     public void testGetAllMovies() {
-        List<MovieDTO> list = facade.getAllMovies();
+        List<MovieDTO> movies = facade.getAllMovies();
+        assertEquals(3, facade.getMovieCount(), "Expects three movies in the database");
+        assertThat(movies, everyItem(hasProperty("title")));
+        assertThat(movies, hasItems( // or contains or containsInAnyOrder 
+                Matchers.<MovieDTO>hasProperty("title", is("Harry Potter and the Philosopher's Stone")),
+                Matchers.<MovieDTO>hasProperty("title", is("Harry Potter and the Chamber of Secrets")),
+                Matchers.<MovieDTO>hasProperty("title", is("Once Upon a Time... in Hollywood"))
+        )
+        );
         
     }
 }
