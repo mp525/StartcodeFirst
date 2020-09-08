@@ -56,7 +56,7 @@ public class MovieResource {
         return GSON.toJson(list);
     }
     
-    @Path("/{id}")
+    @Path("{id}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getMovieTitle(@PathParam("id") long id) {

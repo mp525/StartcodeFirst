@@ -14,6 +14,9 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,4 +110,36 @@ public class MovieResourceTest {
         .statusCode(HttpStatus.OK_200.getStatusCode())
         .body("count", equalTo(3));   
     }
+    
+    @Test
+    public void testAll() throws Exception {
+        given()
+        .get("/movie/all")
+        .then()
+        .assertThat()
+        .body("title", hasItems("Harry Potter and the Philosopher's Stone", 
+                "Harry Potter and the Chamber of Secrets", 
+                "Once Upon a Time... in Hollywood"))
+        .assertThat()
+        .body("title", hasSize(3));
+    }
+    
+    @Test
+    public void testByTitle() throws Exception {
+        given()
+        .pathParam("title", "Harry Potter")
+        .get("movie/title/{title}")
+        .then()
+        .assertThat()
+        .body("title", hasItems("Harry Potter and the Philosopher's Stone", "Harry Potter and the Chamber of Secrets")); 
+    }
+    
+    @Test
+    public void testById() throws Exception {
+        given()
+        .pathParam("id", m1.getId())
+        .get("movie/{id}").then().assertThat().body("title", is(m1.getTitle()));
+    }
+    
+    
 }
