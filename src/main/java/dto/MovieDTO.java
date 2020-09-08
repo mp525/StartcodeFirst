@@ -22,6 +22,7 @@ public class MovieDTO {
         this.year = movie.getYear();
         this.title = movie.getTitle();
         this.producer = movie.getProducer();
+        this.id = movie.getId();
     }
 
     public long getId() {
