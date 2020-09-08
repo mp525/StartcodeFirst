@@ -9,9 +9,9 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import entities.Movie;
 
 //Todo Remove or change relevant parts before ACTUAL use
 @Path("xxx")
@@ -43,9 +43,16 @@ public class MovieResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getMovies() {
-        List<Movie> list = FACADE.getAllMovies();
-        List<MovieDTO> listDTO = MovieDTO.toDTO(list);
-        //System.out.println("--------------->"+count);
-        return GSON.toJson(listDTO);  //Done manually so no need for a DTO
+        List<MovieDTO> list = FACADE.getAllMovies();
+        
+        return GSON.toJson(list); 
+    }
+    
+    @Path("title/{title}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getMovieTitle(@PathParam("title") String title) {
+        List<MovieDTO> list = FACADE.getMoviesByTitle(title);
+        return GSON.toJson(list);
     }
 }
