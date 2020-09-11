@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>MyFirstFetch</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 50%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 4px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }</style>
+    </head>
+    <body>
+        <form>
+            <input type="text" id="id">
+            <button id="user">Get User</button>
+            <button id="users">Get All Users</button>
+        </form>
+        <table id="table1">
+
+        </table>
+        <p id="p1"></p>
+
+        <script>
+
+            var url = "https://jsonplaceholder.typicode.com/users/";
+
+            var user = document.getElementById("user");
+            user.onclick = getSingleUser;
+
+            var users = document.getElementById("users");
+            users.onclick = allUsers;
+
+            function getSingleUser(e) {
+                e.preventDefault();
+                let personID = document.getElementById("id").value;
+                let url2 = url + personID;
+                fetch(url2)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(persons => {
+                            // Inside this callback, and only here, the response data is available
+                            console.log("data", persons);
+                            /* data now contains the response, converted to JavaScript
+                             Observe the output from the log-output above
+                             Now, just build your DOM changes using the data*/
+                             var returnS = "Name: " + persons.name + "<br>Phone: " + persons.phone
+                             + "<br>Address<br>Street: " + persons.address.street + "<br>City: " + persons.address.city
+                             + "<br>Zipcode: " + persons.address.zipcode + "<br>Geo (lat,lng): " + persons.address.geo.lat + ", " + persons.address.geo.lng;
+                           
+                            document.getElementById("table1").innerHTML = returnS;
+                        });
+            }
+
+            function allUsers(e) {
+                e.preventDefault();
+                fetch(url)
+                        .then(res => res.json()) //in flow1, just do it
+                        .then(persons => {
+                            // Inside this callback, and only here, the response data is available
+                            console.log("data", persons);
+                            /* data now contains the response, converted to JavaScript
+                             Observe the output from the log-output above
+                             Now, just build your DOM changes using the data*/
+                            var lis = persons.map((p) => {
+                                line = "<tr><th>" + p.name + "</th><th>" + p.phone + "</th></tr>";
+                                return line;
+                            });
+                            lis.unshift("<tr><th>Navn</th><th>Phone</th><tr>");
+                            document.getElementById("table1").innerHTML = lis.join("");
+
+                        });
+            }
+
+
+        </script>
+    </body>
+</html>

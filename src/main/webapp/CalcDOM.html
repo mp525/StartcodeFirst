@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            #container{
+                width: 226px;
+                height: 274px;
+                border: 3px solid darkblue;
+                margin: auto
+            }
+            .t1, .t4{
+                border: 1px solid black;
+                height: 48px;
+                margin-left: 3px;
+                margin-top: 3px;
+                display: inline-block;
+                text-align: center;
+                line-height: 48px;
+            }
+            .t1{
+                width: 48px;
+            }
+            .t4{
+                width: 219px;
+            }
+        </style>
+
+
+    </head>
+    <body>
+        <div id="container">
+            <div id="display" class="t4"></div>
+            <div id="buttons">
+                <div class="t1">7</div>
+                <div class="t1">8</div>
+                <div class="t1">9</div>
+                <div class="t1">/</div>
+
+                <div class="t1">4</div>
+                <div class="t1">5</div>
+                <div class="t1">6</div>
+                <div class="t1">*</div>
+
+                <div class="t1">1</div>
+                <div class="t1">2</div>
+                <div class="t1">3</div>
+                <div class="t1">-</div>
+
+                <div class="t1">0</div>
+                <div class="t1">.</div>
+                <div class="t1">+</div>
+                <div id="calculate" class="t1">=</div>
+            </div>
+        </div>
+
+        <script>  
+            var display = document.getElementById("display");
+            
+            var buttonsDiv = document.getElementById("buttons");
+            buttonsDiv.addEventListener('click', (event) => {
+                event.preventDefault();
+                keyPressed = event.target.innerText;
+                display.innerHTML += keyPressed;
+            });
+            var calcDiv = document.getElementById("calculate");
+            calcDiv.addEventListener('click', (event) => {
+                event.stopPropagation();
+                var result = containsOp();
+                display = result;
+            });
+
+            function containsOp() {
+                console.log("containsOp");
+                let displayS = display.innerText.toString();
+                if (displayS.indexOf("-") > -1) {
+                    sub(displayS.indexOf("-"));
+                } else if (displayS.indexOf("+") > -1) {
+                    add(displayS.indexOf("+"));
+                } else if (displayS.indexOf("*") > -1) {
+                    mul(displayS.indexOf("*"));
+                } else if (displayS.indexOf("/") > -1) {
+                    divide(displayS.indexOf("/"));
+                }
+            }
+            function sub(i) {
+                console.log("subtraction");
+                let displayS = display.innerText.toString();
+                var splitArr = displayS.split("-");
+                let leftOf = Number(splitArr[0]);
+                let rightOf = Number(splitArr[1]);
+                display.innerHTML = (leftOf - rightOf);
+            }
+            function add(i) {
+                console.log("addition");
+                let displayS = display.innerText.toString();
+                var splitArr = displayS.split("+");
+                let leftOf = Number(splitArr[0]);
+                let rightOf = Number(splitArr[1]);
+                display.innerHTML = (leftOf + rightOf);
+            }
+            function mul(i) {
+                console.log("multiplication");
+                let displayS = display.innerText.toString();
+                var splitArr = displayS.split("*");
+                let leftOf = Number(splitArr[0]);
+                let rightOf = Number(splitArr[1]);
+                display.innerHTML = (leftOf * rightOf);
+            }
+            function divide(i) {
+                console.log("division");
+                let displayS = display.innerText.toString();
+                var splitArr = displayS.split("/");
+                let leftOf = Number(splitArr[0]);
+                let rightOf = Number(splitArr[1]);
+                display.innerHTML = (leftOf / rightOf);
+            }
+            
+        </script>
+
+    </body>
+</html>

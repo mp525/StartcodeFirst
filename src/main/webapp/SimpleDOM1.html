@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SimpleDOM</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+    </head>
+    <body>
+        <div id="div1">Div1</div>
+        <div id="div2">Div2</div>
+        <div id="div3">Div3</div>
+        <button id="btn1">Change colors</button>
+        
+        <script>
+          var divs = document.getElementsByTagName("div");
+          for(var i = 0; i < divs.length; i++){
+              divs[i].style.backgroundColor = "red";
+          }
+          
+          function clickMe(){
+          document.getElementById("div1").style.backgroundColor = "blue";    
+          document.getElementById("div2").style.backgroundColor = "yellow";    
+          document.getElementById("div3").style.backgroundColor = "green";    
+          }
+          
+          var button = document.getElementById("btn1");
+          button.onclick = clickMe;
+
+        </script>
+    </body>
+    
+    
+</html>

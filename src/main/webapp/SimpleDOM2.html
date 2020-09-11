@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>SimpleDOM2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .myDiv {
+                width: 25px; 
+                height: 25px;
+                background-color:yellow; 
+                margin:1px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="outer">
+
+            <div id="div1" class="myDiv">Div1</div>
+            <div id="div2" class="myDiv">Div2</div>
+            <div id="div3" class="myDiv">Div3</div>
+            <div id="div4" class="myDiv">Div4</div>
+            <div id="div5" class="myDiv">Div5</div>
+            <div id="div6" class="myDiv">Div6</div>
+            <div id="div7" class="myDiv">Div7</div>
+            <div id="div8" class="myDiv">Div8</div>
+            <div id="div9" class="myDiv">Div9</div>
+            <div id="div10" class="myDiv">Div10</div>
+            <div id="div11" class="myDiv">Div11</div>
+            <div id="div12" class="myDiv">Div12</div>
+        </div>
+        <br>
+        <p id="pg"></p>
+
+        <br>
+        <form>
+            <input type="text" id="name">
+            <input type="submit" id="submit1" value="Tilføj">
+            <button id="btn1">Remove first</button>
+            <button id="btn2">Remove last</button>
+        </form>
+        <ul id="list"></ul>
+
+        <script>
+
+            var divs = document.getElementsByTagName("div");
+            var arr = ["Lars", "Jan", "Peter", "Bo", "Frederik"];
+            makeList(arr);
+
+            function makeList(arr) {
+                var htmlNames = arr.map(function (name) {
+                    return "<li>" + name + "</li>";
+                }, arr);
+
+                var htmlString = htmlNames.join("");
+                document.getElementById("list").innerHTML = htmlString;
+            };
+            
+
+            function addName(e) {
+                e.preventDefault();
+                var name = document.getElementById("name").value;
+                arr.push(name);
+                makeList(arr);
+            };
+
+            function clickMe(e) {
+                var target = e.target;
+                document.getElementById("pg").innerText = "Hi from " + target.id + ".";
+            };
+            
+            function rmFirst(e){
+                e.preventDefault();
+                arr.shift();
+                makeList(arr);
+            }
+            function rmLast(e){
+                e.preventDefault();
+                arr.pop();
+                makeList(arr);
+            }
+            
+            var btn1 = document.getElementById("btn1");
+            btn1.onclick = rmFirst;
+            
+            var btn2 = document.getElementById("btn2");
+            btn2.onclick = rmLast;
+
+            var outer = document.getElementById("outer");
+            outer.onclick = clickMe;
+
+            var submit = document.getElementById("submit1");
+            submit.onclick = addName;
+
+
+        </script>
+
+    </body>
+</html>

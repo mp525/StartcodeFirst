@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SimpleDOM3</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 50%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 4px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }</style>
+    </head>
+    <body>
+        <div>Table of cars</div>
+        <table id="table1">
+        </table>
+        <form>
+            <input type="number" id="input">
+            <button id="lessThan">Price less than</button>
+        </form>
+
+        <script>
+            var cars = [
+                {id: 1, year: 1997, make: 'Ford', model: 'E350', price: 3000},
+                {id: 2, year: 1999, make: 'Chevy', model: 'Venture', price: 4900},
+                {id: 3, year: 2000, make: 'Chevy', model: 'Venture', price: 5000},
+                {id: 4, year: 1996, make: 'Jeep', model: 'Grand Cherokee', price: 4799},
+                {id: 5, year: 2005, make: 'Volvo', model: 'V70', price: 44799}
+            ];
+
+            var first = true;
+            var carsMapped = cars.map(function (car) {
+                return "<tr><th>" + car.id + "</th><th>" + car.year + "</th><th>" + car.make + "</th><th>" + car.model + "</th><th>" + car.price + "</th></tr>";
+
+            });
+            function fillCarsTable() {
+                var tableStart = "<tr><th>id</th><th>Year</th><th>Make</th><th>Model</th><th>Price</th></tr>";
+                var tableString = carsMapped.join("");
+                document.getElementById("table1").innerHTML = tableStart + tableString;
+            }
+
+
+
+            function lessThanTable(e) {
+                e.preventDefault();
+                var tableStart = "<tr><th>id</th><th>Year</th><th>Make</th><th>Model</th><th>Price</th></tr>";
+                var carsLessThan = cars.map(function (car) {
+                    let lessThan = document.getElementById("input").value;
+                    if (car.price < lessThan) {
+                        return "<tr><th>" + car.id + "</th><th>" + car.year + "</th><th>" + car.make + "</th><th>" + car.model + "</th><th>" + car.price + "</th></tr>";
+                    }
+                });
+                var tableString = carsLessThan.join("");
+                document.getElementById("table1").innerHTML = tableStart + tableString;
+            }
+
+            var button = document.getElementById("lessThan");
+            button.onclick = lessThanTable;
+
+            fillCarsTable();
+
+        </script>
+    </body>
+</html>
