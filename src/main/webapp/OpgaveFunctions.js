@@ -123,11 +123,52 @@ var msgPrinter = function (msg, delay) {
         console.log(msg);
     }, delay);
 };
-console.log("aaaaaaaaaa");
-msgPrinter("bbbbbbbbbb", 2000);
-console.log("dddddddddd");
-msgPrinter("eeeeeeeeee", 1000);
-console.log("ffffffffff");
-//I was right (yes!)
+//console.log("aaaaaaaaaa");
+//msgPrinter("bbbbbbbbbb", 2000);
+//console.log("dddddddddd");
+//msgPrinter("eeeeeeeeee", 1000);
+//console.log("ffffffffff");
+//I was right (yes!) Har lige udkommenteret det da det kommer i vejen for resten
+
+function Person(name){
+  this.name = name;
+  console.log("Name: "+ this.name);
+  setTimeout(function(){
+    console.log("Hi  "+this.name);  //Explain this
+  },2000);
+}
+//call it like this (do it, even if you know it’s silly ;-)
+Person("Kurt Wonnegut");  //This calls the function
+console.log("I'm global: "+ name);  //Explain this
+
+//Fordi at Person er et objekt, da det er en constructor, og får attributten name med parametren name. Det objekt bliver globalt og dets attributter.
+//Mens den sidste console.log i setTimeout ikke kan kalde this i denne kontext er ingenting og name derfor ikke findes
+
+var p = new Person("Kurt Wonnegut");  //Create an instance using the constructor function
+console.log("I'm global: "+ name);  //What’s different ?
+
+//Den eneste forskel her er, at denne gang er dette person objects name attribut ikke global da den er sat på et variabel.
+
+//Store a reference to the outer this
+function Person(name){
+  this.name = name;
+  var self = this;
+  console.log("Name: "+ this.name);
+  setTimeout(function(){
+    console.log("Hi  "+self.name);  
+  }.bind(this),2000);
+}
+
+var greeter = function(){
+  console.log(this.message);
+};
+var comp1 = { message: "Hello World" };
+var comp2 = { message: "Hi" };
+
+var g1 = greeter.bind(comp1 );//We can store a reference, with a specific “this” to use
+var g2 = greeter.bind(comp2 );//And here another “this”
+setTimeout(g1,500);
+setTimeout(g2,1000);
+
 
 
